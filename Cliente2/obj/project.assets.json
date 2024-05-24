@@ -8002,11 +8002,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Proyectos\\CSharp\\Cliente2\\Cliente2\\Cliente2.csproj",
+      "projectUniqueName": "C:\\Users\\maest\\Desktop\\cliente\\Cliente\\Cliente2\\Cliente2.csproj",
       "projectName": "Cliente2",
-      "projectPath": "C:\\Proyectos\\CSharp\\Cliente2\\Cliente2\\Cliente2.csproj",
+      "projectPath": "C:\\Users\\maest\\Desktop\\cliente\\Cliente\\Cliente2\\Cliente2.csproj",
       "packagesPath": "C:\\Users\\maest\\.nuget\\packages\\",
-      "outputPath": "C:\\Proyectos\\CSharp\\Cliente2\\Cliente2\\obj\\",
+      "outputPath": "C:\\Users\\maest\\Desktop\\cliente\\Cliente\\Cliente2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",

@@ -22,5 +22,7 @@ namespace Cliente2
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
     }
+
 }

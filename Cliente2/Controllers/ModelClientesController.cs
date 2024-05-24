@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cliente2.Data;
 using Cliente2.Models;
+using Microsoft.Extensions.Logging;
 
 
 namespace Cliente2.Controllers
@@ -18,23 +19,48 @@ namespace Cliente2.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ApplicationDbContext> _logger;
 
-        public ModelClientesController(ApplicationDbContext context)
+        //public ModelClientesController(ApplicationDbContext context)
+        //{
+        //_context = context;
+        //}
+        public ModelClientesController(ApplicationDbContext context, ILogger<ApplicationDbContext> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ModelCliente>> GetClientes()
         {
-            return _context.cliente.ToList();
+            IEnumerable<ModelCliente> vrLista = new List<ModelCliente>();   
+            _logger.LogInformation("Obteniendo Todos los Clientes");
+            //aca boy
+            try
+            {
+                vrLista = _context.cliente;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                _logger.LogInformation("Error de excepciòn");
+            }
+            
+            return vrLista.ToList();
         }
 
         [HttpPost]
         public async Task<ActionResult<ModelCliente>> PostCliente(ModelCliente cliente)
         {
-            _context.cliente.Add(cliente);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.cliente.Add(cliente);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                _logger.LogInformation("Error de excepciòn");
+            }
 
             return CreatedAtAction(nameof(GetClientes), new { id = cliente.IdCliente }, cliente);
         }
@@ -57,10 +83,12 @@ namespace Cliente2.Controllers
             {
                 if (!ModelClienteExists(id))
                 {
+                    _logger.LogInformation("Error de excepciòn");
                     return NotFound();
                 }
                 else
                 {
+                    _logger.LogInformation("Error de excepciòn");
                     throw;
                 }
             }
@@ -70,7 +98,17 @@ namespace Cliente2.Controllers
 
         private bool ModelClienteExists(int id)
         {
-            return _context.cliente.Any(e => e.IdCliente == id);
+            bool exists = false;
+            try
+            {
+                exists = _context.cliente.Any(e => e.IdCliente == id);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                _logger.LogInformation("Error de excepciòn");
+            }
+
+            return exists;
         }
     }
 }
